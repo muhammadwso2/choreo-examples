@@ -49,7 +49,7 @@ function orgSignin(adminApp: boolean, orgId?: string): void {
 
     if (adminApp) {
         if (orgId) {
-            signIn("wso2isAdmin", { orgId: orgId });
+            signIn("wso2isAdmin", undefined, { orgId: orgId });
         } else {
             signIn("wso2isAdmin");
         }
@@ -76,7 +76,8 @@ async function orgSignout(session: Session, hostedUrl: string): Promise<void> {
             .then(
                 () => window.location.assign(
                     getManagementAPIServerBaseUrl() + "/t/" + getTenantDomain() +
-                    "/oidc/logout?id_token_hint=" + session.orginalIdToken + "&post_logout_redirect_uri=" +
+                    "/oidc/logout?client_id=" + getConfig().CommonConfig.AuthorizationConfig.ClientId + 
+                    "&post_logout_redirect_uri=" +
                     hostedUrl + "&state=sign_out_success"
                 )
             );

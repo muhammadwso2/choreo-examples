@@ -23,21 +23,29 @@ import { PatchMethod } from "@pet-management-webapp/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchRole } from "./controllerCallPatchRole";
 
-export function getAddReplaceBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
-    return {
-        "operations": [
+export function getAddReplaceBody(patchMethod: PatchMethod, path: string, values: string[] | string): PatchBody {
+    
+    const valuesList = Array.isArray(values) 
+        ? values.map((val) => { return { "value": val }; })
+        : [ { "value": values } ];
+
+    const patchBody: any = {
+        "Operations": [
             {
                 "op": patchMethod,
-                "path": path,
-                "value": value
+                "value": {}
             }
         ]
     };
+    
+    patchBody["Operations"][0]["value"][path] = valuesList;
+
+    return patchBody as PatchBody;
 }
 
 export function getRemoveBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
     return {
-        "operations": [
+        "Operations": [
             {
                 "op": patchMethod,
                 "path": `${path}[value eq ${value}]`
@@ -76,13 +84,14 @@ export function getPatchBody(patchMethod: PatchMethod, path: string, value: stri
  * @returns - whehter the patch was successful or not
  */
 export async function controllerDecodePatchRole(
-    session: Session, roleUri: string, patchMethod: PatchMethod, path: string, value: string[] | string)
+    session: Session, roleId: string, patchMethod: PatchMethod, path: string, value: string[] | string)
     : Promise<Role | null> {
 
     const patchBody: PatchBody = (getPatchBody(patchMethod, path, value) as PatchBody);
+    console.log(patchBody);
 
     const res = (
-        await commonControllerDecode(() => controllerCallPatchRole(session, roleUri, patchBody), null) as Role | null);
+        await commonControllerDecode(() => controllerCallPatchRole(session, roleId, patchBody), null) as Role | null);
 
     return res;
 }

@@ -23,7 +23,7 @@ export async function updateDocThumbnail(accessToken: string, doctorId: string, 
         "Authorization": `Bearer ${accessToken}`,
         "Content-Type": "multipart/form-data"
     };
-    const path = "/doctors/" + doctorId + "/thumbnail";
+    const path = `doctors/${encodeURIComponent(doctorId)}/thumbnail`;
     const response = await getDoctorInstance().put(path, payload, {
         headers: headers
     });

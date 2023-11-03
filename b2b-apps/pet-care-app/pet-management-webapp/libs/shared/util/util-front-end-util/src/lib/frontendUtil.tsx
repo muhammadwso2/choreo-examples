@@ -19,6 +19,7 @@
 import { SideNavItem } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import AdminIcon from "@rsuite/icons/Admin";
 import CalendarIcon from "@rsuite/icons/Calendar";
+import EditIcon from "@rsuite/icons/Edit";
 import GridIcon from "@rsuite/icons/Grid";
 import DashboardIcon from "@rsuite/icons/legacy/Dashboard";
 import GearCircleIcon from "@rsuite/icons/legacy/GearCircle";
@@ -30,6 +31,8 @@ import PhoneIcon from "@rsuite/icons/Phone";
 import SettingHorizontalIcon from "@rsuite/icons/SettingHorizontal";
 import ShieldIcon from "@rsuite/icons/Shield";
 import SpeakerIcon from "@rsuite/icons/Speaker";
+import TagLockIcon from "@rsuite/icons/TagLock";
+import PeoplesIcon from '@rsuite/icons/Peoples';
 
 export const LOADING_DISPLAY_NONE = {
     display: "none"
@@ -138,6 +141,15 @@ export function getIconFromString(iconString: string | undefined): JSX.Element |
         case "ChannellingIcon":
             return(<CalendarIcon/>);  
 
+        case "BrandingIcon":
+            return(<EditIcon/>);
+        
+        case "MFAIcon":
+            return(<TagLockIcon/>);
+
+        case "ManageGroups":
+            return(<PeoplesIcon/>);
+
         default:
 
             return;
@@ -145,5 +157,5 @@ export function getIconFromString(iconString: string | undefined): JSX.Element |
 }
 
 export default {
-    LOADING_DISPLAY_NONE, LOADING_DISPLAY_BLOCK, hideBasedOnScopes, getIconFromString
+    LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, getIconFromString, hideBasedOnScopes
 };

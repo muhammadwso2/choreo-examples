@@ -23,10 +23,10 @@ import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button, Stack } from "rsuite";
-import AddDoctorComponent from "./addDoctorComponent";
 import DoctorCard from "./doctorCard";
 import DoctorOverview from "./doctorOverview";
 import styles from "../../../../styles/doctor.module.css";
+import AddUserComponent from "../settingsSection/manageUserSection/otherComponents/addUserComponent";
 
 interface ManageDoctorsSectionProps {
     session: Session
@@ -71,7 +71,6 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
         router.replace(router.asPath);
     }, [ isDoctorEditOpen ]);
 
-
     const onAddDoctorClick = (): void => {
         setIsAddDoctorOpen(true);
     };
@@ -104,10 +103,16 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
                 </Button>
             </Stack>
 
-            <AddDoctorComponent
+            {/* <AddDoctorComponent
                 session={ session }
                 open={ isAddDoctorOpen }
-                onClose={ closeAddDoctorDialog } />
+                onClose={ closeAddDoctorDialog } /> */}
+
+            <AddUserComponent
+                session={ session }
+                open={ isAddDoctorOpen }
+                onClose={ closeAddDoctorDialog }
+                isDoctor={ true } />
 
             <div>
                 <Grid container spacing={ 2 }>

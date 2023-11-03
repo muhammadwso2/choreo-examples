@@ -23,7 +23,7 @@ export async function getDocThumbnail(accessToken: string, doctorId: string) {
         "accept": "*/*"
     };
 
-    const response = await getDoctorInstance().get("/doctors/" + doctorId + "/thumbnail" , {
+    const response = await getDoctorInstance().get(`doctors/${encodeURIComponent(doctorId)}/thumbnail` , {
         headers: headers,
         responseType: "blob"
     });

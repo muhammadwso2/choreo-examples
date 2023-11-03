@@ -23,7 +23,7 @@ import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function getDoctorBookingsPerDay(accessToken: string, doctorId: string, date: string) {
     const headers = createHeaders(accessToken);
-    const response = await getDoctorInstance().get("/doctors/"+ doctorId +"/bookings?date=" + date, {
+    const response = await getDoctorInstance().get(`doctors/${encodeURIComponent(doctorId)}/bookings?date=` + date, {
         headers: headers
     });
 

@@ -71,6 +71,7 @@ export interface BookingInfo {
 export interface CompleteBooking{
     date: string;
     doctorId: string;
+    email: string;
     mobileNumber: string;
     petDoB: string;
     petId: string;

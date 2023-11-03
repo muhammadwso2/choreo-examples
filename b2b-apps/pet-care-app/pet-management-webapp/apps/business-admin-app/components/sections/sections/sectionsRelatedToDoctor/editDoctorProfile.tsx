@@ -318,9 +318,22 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                             value={ bookingCount }
                         />
 
-                        <button 
-                            className={ styles.availabilityPlusButtonStyle } 
-                            onClick={ (e) => { e.preventDefault(); handleOnAdd(); } }>+</button>
+                        <Button 
+                            style={ {
+                                border: "none",
+                                borderRadius: "1vh",
+                                color: "white",
+                                fontSize: "2vh",
+                                fontWeight: "bolder",
+                                height: "5vh",
+                                padding: "5px",
+                                width: "5vh"
+                            } }
+                            appearance="primary"
+                            onClick={ (e) => { e.preventDefault(); handleOnAdd(); } }>
+                                +
+                        </Button>
+
                     </div>
                     <br/>
                     { availabilityInfo?.length > 0 && (
@@ -403,8 +416,8 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                             <Image
                                 style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
                                 src={ 
-                                    doctor?.gender.toLowerCase() === "male" ? 
-                                        male_doc_thumbnail : female_doc_thumbnail }
+                                    doctor?.gender?.toLowerCase() === "male" ? 
+                                        male_doc_thumbnail : male_doc_thumbnail }
                                 alt="doc-thumbnail"
                             />
 

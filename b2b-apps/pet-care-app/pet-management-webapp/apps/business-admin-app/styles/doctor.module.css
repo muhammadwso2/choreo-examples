@@ -242,7 +242,7 @@
 .availabilityPlusButtonStyle {
     height: 5vh;
     width: 5vh;
-    background-color: #4e40ed; 
+    background-color: var(--primary-color); 
     border: none;
     border-radius: 1vh;
     color: white;
@@ -291,7 +291,7 @@
     padding: 1vh 2vh;
     margin-right: 1vw;
     font-size: 2vh;
-    background-color: #4e40ed;
+    background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
     box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
@@ -315,21 +315,6 @@
     position: absolute;
     top: 47vh;
     left: 4vw;
-}
-
-.docUploadBtnStyleSec {
-    text-decoration: none;
-    border: none;
-    padding: 1vh 2vh;
-    margin-right: 1vw;
-    font-size: 2vh;
-    background-color: #4e40ed;
-    color: #fff;
-    border-radius: 5px;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    cursor: pointer;
-    outline: none;
-    transition: 0.2s all;
 }
 
 .infoDiv {
@@ -475,7 +460,7 @@
 .plusButtonStyle {
     height: 5vh;
     width: 5vh;
-    background-color: #4e40ed; 
+    background-color: var(--primary-color); 
     border: none;
     border-radius: 1vh;
     color: white;
@@ -506,7 +491,7 @@
 .medicinePlusButtonStyle {
     height: 5vh;
     width: 5vh;
-    background-color: #4e40ed; 
+    background-color: var(--primary-color); 
     border: none;
     border-radius: 1vh;
     color: white;
@@ -567,7 +552,7 @@
 }
 
 .settingsSaveBtn {
-    background-color: #4e40ed;  
+    background-color: var(--primary-color);  
     color: white;
     border: none;
     width: 7vw;

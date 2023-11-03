@@ -37,6 +37,14 @@ export * from
 export * from
 "./lib/controller/identityProvider/controllerGetDetailedIdentityProvider/controllerDecodeGetDetailedIdentityProvider";
 export * from
+"./lib/controller/identityProvider/controllerGetDetailedIdentityProvider/controllerDecodeGetLocalClaims";
+export * from
+"./lib/controller/identityProvider/controllerGetDetailedIdentityProvider/controllerDecodeGetIdentityProviderGroupMapping";
+export * from
+"./lib/controller/identityProvider/controllerPatcgIdpGroupMappings/controllerDecodePatchIdpGroups";
+export * from
+"./lib/controller/identityProvider/controllerPatcgIdpGroupMappings/controllerDecodePatchIdpClaims";
+export * from
 "./lib/controller/identityProvider/controllerGetFederatedAuthenticators/controllerDecodeGetFederatedAuthenticators";
 export * from
 "./lib/controller/identityProvider/controllerPatchGeneralSettingsIdp/controllerDecodePatchGeneralSettingsIdp";
@@ -56,3 +64,6 @@ export * from "./lib/controller/group/controllerPatchGroupName/controllerDecodeP
 export * from "./lib/controller/group/controllerPatchGroupMembers/controllerDecodePatchGroupMembers";
 export * from "./lib/controller/group/controllerDeleteGroup/controllerDecodeDeleteGroup";
 export * from "./lib/controller/user/controllerDeleteUser/controllerDecodeDeleteUser";
+export * from "./lib/controller/branding/controllerDecodeGetBrandingPreference";
+export * from "./lib/controller/branding/controllerDecodeUpdateBrandingPreference";
+export * from "./lib/controller/branding/controllerDecodeRevertBrandingPreference";

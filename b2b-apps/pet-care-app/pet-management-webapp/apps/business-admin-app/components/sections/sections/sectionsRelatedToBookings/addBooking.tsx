@@ -25,18 +25,19 @@ import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
 import React, { useEffect, useState } from "react";
-import { Loader, Modal } from "rsuite";
+import { Button, Loader, Modal, Radio, RadioGroup } from "rsuite";
 import styled from "styled-components";
 import PetCardInAddBooking from "./petCardInAddBooking";
 import convertTo12HourTime from "./timeConverter";
 import styles from "../../../../styles/booking.module.css";
+import { IdentityProviderConfigureType } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 
 interface buttonProps {
     isDisabled: boolean;
 }
 
-const Button = styled.button<buttonProps>`
-background-color: #4e40ed;
+const ButtonABC = styled.button<buttonProps>`
+background-color: var(--primary-color);
 color: #ffffff;
 border: none;
 width: 7vw;
@@ -44,7 +45,7 @@ height: 5vh;
 border-radius: 5px;
 font-size: 2vh;
 color: ${props => props.isDisabled ? "#727372" : "#ffffff"};
-background-color: ${props => props.isDisabled ? "#cacccb" : "#4e40ed"};
+background-color: ${props => props.isDisabled ? "#cacccb" : "var(--primary-color)"};
 `;
 
 const CancelButton = styled.button`
@@ -112,8 +113,8 @@ export default function AddBookings(props: AddBookingsProps) {
         
     }, [ isOpen ]);
 
-    const handleOnTimeSlotClick = (availabilityInfo: Availability) => {
-        setAvailabilityInfo(availabilityInfo);
+    const handleOnTimeSlotClick = (value: number) => {
+        setAvailabilityInfo(availability[value]);
     };
 
     const handleNext = () => {
@@ -195,18 +196,16 @@ export default function AddBookings(props: AddBookingsProps) {
                             <><div className={ styles.chooseTimeHeader }>
                                         Choose a time slot
                             </div><div className="timeslot-div">
-                                { availability && availability.map((availabilityInfo) => (
-                                    <>
-                                        <button
-                                            className={ styles.timeSlotButton } 
-                                            onClick={ (e) => { e.preventDefault(); 
-                                                handleOnTimeSlotClick(availabilityInfo); } }>
+                            
+                                <RadioGroup onChange={ handleOnTimeSlotClick }>
+                                    { availability && availability.map((availabilityInfo, index) => (
+                                        <Radio key={ index } value={ index } >
                                             { availabilityInfo.date + " , " + 
-                                            convertTo12HourTime(availabilityInfo.timeSlots[0].startTime) + " - " + 
-                                            convertTo12HourTime(availabilityInfo.timeSlots[0].endTime) }
-                                        </button>
-                                        <br /><br /></>
-                                )) }
+                                                convertTo12HourTime(availabilityInfo.timeSlots[0].startTime) + " - " + 
+                                                convertTo12HourTime(availabilityInfo.timeSlots[0].endTime) }
+                                        </Radio>
+                                    )) }
+                                </RadioGroup>
                                 { availability?.length === 0 && (
                                     <div className={ styles.docUnavailableDiv }>
                                                     Doctor is currently unavailable.
@@ -269,24 +268,41 @@ export default function AddBookings(props: AddBookingsProps) {
             <Modal.Footer>
                 { activeStep === 0 && (
                     <><div className={ styles.nextBtnDiv }>
-                        <Button
-                            isDisabled={ availabilityInfo === null ? true : false }
-                            onClick={ handleNext }>
-                                        Next
+                        <Button 
+                            appearance="primary"
+                            disabled={ availabilityInfo === null ? true : false }
+                            onClick={ handleNext }
+                            style={ {
+                                borderRadius: "5px",
+                                height: "5vh",
+                                padding: "2px",
+                                width: "7vw"
+                            } }
+                        >
+                            Next
                         </Button>
                     </div><div className={ styles. cancelBtnDiv }>
-                        <CancelButton onClick={ handleClose }>
-                                            Cancel
-                        </CancelButton>
+                        <Button 
+                            appearance="ghost"
+                            onClick={ handleClose }
+                            style={ {
+                                borderRadius: "5px",
+                                height: "5vh",
+                                padding: "2px",
+                                width: "7vw"
+                            } }
+                        >
+                            Cancel
+                        </Button>
                     </div></>
                 ) }
                 { activeStep === 1 && (
                     <><div className={ styles.nextBtnDiv }>
-                        <Button
+                        <ButtonABC
                             isDisabled={ pet === null ? true : false }
                             onClick={ handleNext }>
                                         Next
-                        </Button>
+                        </ButtonABC>
                     </div><div className={ styles. cancelBtnDiv }>
                         <CancelButton onClick={ handleClose }>
                                             Cancel
@@ -295,11 +311,11 @@ export default function AddBookings(props: AddBookingsProps) {
                 ) }
                 { activeStep === 2 && (
                     <><div className={ styles.nextBtnDiv }>
-                        <Button
+                        <ButtonABC
                             isDisabled={ pet === null ? true : false }
                             onClick={ handleFinish }>
                                         Finish
-                        </Button>
+                        </ButtonABC>
                     </div><div className={ styles. cancelBtnDiv }>
                         <CancelButton onClick={ handleClose }>
                                             Cancel

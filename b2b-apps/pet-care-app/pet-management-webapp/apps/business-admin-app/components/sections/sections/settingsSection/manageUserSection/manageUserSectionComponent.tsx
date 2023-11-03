@@ -125,7 +125,8 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
             <AddUserComponent
                 session={ session }
                 open={ addUserOpen }
-                onClose={ closeAddUserDialog } />
+                onClose={ closeAddUserDialog } 
+                isDoctor={ false } />
 
             <SettingsTitleComponent
                 title="Manage Users"
@@ -151,7 +152,7 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
 
                         <Column flexGrow={ 2 } align="center">
                             <HeaderCell><h6>Email (Username)</h6></HeaderCell>
-                            <Cell dataKey="email" />
+                            <Cell dataKey="username" />
                         </Column>
 
                         <Column flexGrow={ 1 } align="center" fixed="right">

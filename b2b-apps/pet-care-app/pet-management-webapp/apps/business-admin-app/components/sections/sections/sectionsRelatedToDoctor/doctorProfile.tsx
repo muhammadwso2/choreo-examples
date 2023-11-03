@@ -73,7 +73,7 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
             })
             .catch((e) => {
                 // eslint-disable-next-line no-console
-                console.log(e);
+                // TODO: handle error
             });
     }
 
@@ -122,8 +122,8 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
                         ) : (
                             <Image
                                 style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ doctor?.gender.toLowerCase() === "male" ?
-                                    male_doc_thumbnail : female_doc_thumbnail }
+                                src={ doctor?.gender?.toLowerCase() === "male" ?
+                                    male_doc_thumbnail : male_doc_thumbnail }
                                 alt="doc-thumbnail" />
 
                         ) }
@@ -164,19 +164,27 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
                                     <p className={ styles.docProfileFont }>{ doctor?.registrationNumber }</p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.docProfileFont }>{ doctor?.specialty }</p>
+                                    <p className={ styles.docProfileFont }>
+                                        { doctor?.specialty? doctor.specialty : "N/A" }
+                                    </p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
                                     <p className={ styles.docProfileFont }>{ doctor?.emailAddress }</p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.docProfileFont }>{ doctor?.gender }</p>
+                                    <p className={ styles.docProfileFont }>
+                                        { doctor?.gender? doctor.gender : "N/A" }
+                                    </p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.docProfileFont }>{ doctor?.dateOfBirth }</p>
+                                    <p className={ styles.docProfileFont }>
+                                        { doctor?.dateOfBirth? doctor.dateOfBirth : "N/A" }
+                                    </p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.docProfileFont }>{ doctor?.address }</p>
+                                    <p className={ styles.docProfileFont }>
+                                        { doctor?.address? doctor.address : "N/A" }
+                                    </p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
                                     <p className={ styles.docProfileFont }>{ stringDate }</p>

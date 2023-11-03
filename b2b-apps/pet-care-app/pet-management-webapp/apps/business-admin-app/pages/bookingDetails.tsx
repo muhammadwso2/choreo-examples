@@ -53,7 +53,8 @@ export default function BookingDetails() {
         petOwnerName,
         sessionEndTime,
         sessionStartTime,
-        status
+        status,
+        orgId
     } = router.query;
     const [ pet, setPet ] = useState<Pet | null>(null);
     const [ url, setUrl ] = useState("");
@@ -76,7 +77,7 @@ export default function BookingDetails() {
                 .then(async (res) => {
                     if (res.data) {
                         setPet(res.data);
-                        const response = await getThumbnail(accessToken, res.data.id);
+                        const response = await getThumbnail(accessToken, res.data.id, "", "");
 
                         if (response.data.size > 0) {
                             const imageUrl = URL.createObjectURL(response.data);
@@ -134,6 +135,7 @@ export default function BookingDetails() {
             const payload: CompleteBooking = {
                 date: date?.toString(),
                 doctorId: doctorId?.toString(),
+                email: emailAddress?.toString(),
                 mobileNumber: mobileNumber?.toString(),
                 petDoB: pet?.dateOfBirth,
                 petId: petId?.toString(),
@@ -144,7 +146,7 @@ export default function BookingDetails() {
                 sessionStartTime: sessionStartTime?.toString(),
                 status: "Completed"
             };
-            const response = await updateBooking(accessToken, id?.toString(), payload);
+            const response = await updateBooking(accessToken, orgId?.toString(), id?.toString(), payload);
         }
         updateBookingInfo();
         setBookingStatus("Completed");

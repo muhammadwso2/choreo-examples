@@ -90,7 +90,6 @@ export default function EditDoctor(props: EditDoctorProps) {
         }
 
         if (url !== null && url !== "") {
-            console.log("url: "+ url);
             // Start loading
             setIsLoading(true);
       
@@ -342,9 +341,21 @@ export default function EditDoctor(props: EditDoctorProps) {
                             value={ bookingCount }
                         />
 
-                        <button 
-                            className={ styles.availabilityPlusButtonStyle } 
-                            onClick={ (e) => { e.preventDefault(); handleOnAdd(); } }>+</button>
+                        <Button 
+                            style={ {
+                                border: "none",
+                                borderRadius: "1vh",
+                                color: "white",
+                                fontSize: "2vh",
+                                fontWeight: "bolder",
+                                height: "5vh",
+                                padding: "5px",
+                                width: "5vh"
+                            } }
+                            appearance="primary"
+                            onClick={ (e) => { e.preventDefault(); handleOnAdd(); } }>
+                                +
+                        </Button>
                     </div>
                     <br/>
                     { availabilityInfo.length > 0 && (
@@ -416,7 +427,7 @@ export default function EditDoctor(props: EditDoctorProps) {
                     <br />
                     { isLoading ? (
                         <div className={ styles.docImageStyle }>
-                            <TailSpin color="#4e40ed" height={ 100 } width={ 100 } />
+                            <TailSpin color="black" height={ 100 } width={ 100 } />
                         </div>
                     ) : (
                         <div className={ styles.docImageStyle }>
@@ -432,15 +443,28 @@ export default function EditDoctor(props: EditDoctorProps) {
                                 <Image
                                     style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
                                     src={ 
-                                        doctor?.gender.toLowerCase() === "male" ? 
-                                            male_doc_thumbnail : female_doc_thumbnail }
+                                        doctor?.gender?.toLowerCase() === "male" ? 
+                                            male_doc_thumbnail : male_doc_thumbnail }
                                     alt="doc-thumbnail"
                                 />
 
                             ) } 
                         </div> 
                     ) }
-                    <div className={ styles.updateDocImageDiv }>
+                    <div 
+                        style={ {
+                            color: "rgb(105, 105, 105)",
+                            fontFamily: "Arial, Helvetica, sans-serif",
+                            fontSize: "2vh",
+                            fontWeight: "bold",
+                            height: "5vh",
+                            left: "4vw",
+                            objectFit: "contain",
+                            position: "absolute",
+                            textAlign: "left",
+                            top: "35vh",
+                            width: "15vw",
+                        } }>
                         Update Doctor Image
                     </div>
                     <FileUploadSingle  

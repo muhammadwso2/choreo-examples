@@ -67,6 +67,7 @@ function getConnection() returns jdbc:Client|error {
 function getDoctors(string org) returns Doctor[]|error {
 
     if (useDB) {
+        log:printInfo("Getting doctor from DB");
         return dbGetDoctorsByOrg(org);
     } else {
         Doctor[] doctorList = [];
@@ -181,7 +182,8 @@ function deleteDoctorById(string org, string doctorId) returns string|()|error {
 
 function addDoctor(DoctorItem doctorItem, string org) returns Doctor|error {
 
-    string docId = uuid:createType1AsString();
+    log:printInfo("Reached add doctor endpoint");
+    string docId = doctorItem.emailAddress;
     time:Utc currentUtc = time:utcNow();
     time:Civil currentTime = time:utcToCivil(currentUtc);
     string timeString = civilToIso8601(currentTime);

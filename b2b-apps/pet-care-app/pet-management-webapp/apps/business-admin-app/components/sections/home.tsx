@@ -19,10 +19,11 @@
 import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
 import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
 import { SignOutComponent } from "@pet-management-webapp/shared/ui/ui-components";
+import { getPersonalization } from "apps/business-admin-app/APICalls/GetPersonalization/get-personalization";
 import DoctorBookingsSection 
     from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 import GetStartedSectionComponent from "./sections/getStartedSection/getStartedSectionComponent";
 import GetStartedSectionComponentForAdmin from "./sections/getStartedSection/getStartedSectionForAdmin";
@@ -37,23 +38,18 @@ import ManageDoctorsSection from "./sections/sectionsRelatedToDoctor/manageDocto
 import IdpSectionComponent from "./sections/settingsSection/idpSection/idpSectionComponent";
 import ManageGroupSectionComponent from "./sections/settingsSection/manageGroupSection/manageGroupSectionComponent";
 import ManageUserSectionComponent from "./sections/settingsSection/manageUserSection/manageUserSectionComponent";
+import ConfigureMFASection from "./sections/settingsSection/mfaSection/configureMfaSection";
+import PersonalizationSectionComponent 
+    from "./sections/settingsSection/personalizationSection/personalizationSectionComponent";
+import personalize from "./sections/settingsSection/personalizationSection/personalize";
 import RoleManagementSectionComponent from
     "./sections/settingsSection/roleManagementSection/roleManagementSectionComponent";
 import sideNavDataForAdmin
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForAdmin.json";
-import sideNavDataForDoctor
-    from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForDoctor.json";
-import sideNavDataForPetOwner
-    from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForPetOwner.json";
-
 import HomeComponentForAdmin
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
-import HomeComponentForDoctor
-    from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForDoctor";
-import HomeComponentForPetOwner
-    from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
-
 import Custom500 from "../../pages/500";
+
 
 interface HomeProps {
     name: string,
@@ -70,9 +66,26 @@ export default function Home(props: HomeProps): JSX.Element {
 
     const { name, session } = props;
 
-    const [ activeKeySideNav, setActiveKeySideNav ] = useState(session.group === "admin"? 
-        "10":(session.group === "doctor"?"9":"11"));
+    const [ activeKeySideNav, setActiveKeySideNav ] = useState("1");
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
+
+    const fetchData = useCallback(async () => {
+        fetchBrandingPreference();
+    }, [ session ]);
+
+    useEffect(() => {
+        fetchData();
+        fetchBrandingPreference();
+    }, [ fetchData ]);
+
+    const fetchBrandingPreference = async () => {
+        // getPersonalization(session.accessToken, session.orgId)
+        //     .then((response) => {
+        //         personalize(response.data);
+        //     });
+    };
+
+    
 
 
     const mainPanelComponenet = (activeKey): JSX.Element => {
@@ -122,7 +135,13 @@ export default function Home(props: HomeProps): JSX.Element {
                 return <GetStartedSectionComponentForAdmin  session={ session } />;
             case "11":
 
-                return <GetStartedSectionComponentForPetOwner  session={ session } />;          
+                return <GetStartedSectionComponentForPetOwner  session={ session } />;     
+            case "12":
+
+                return <PersonalizationSectionComponent  session={ session } />;    
+            case "13":
+
+                return <ConfigureMFASection  session={ session } />;   
         }
     };
 
@@ -140,46 +159,27 @@ export default function Home(props: HomeProps): JSX.Element {
 
     let homeComponent;
 
-    if (session && session.group === "admin") {
-        homeComponent = (< HomeComponentForAdmin
-            scope={ session.scope }
-            sideNavData={ sideNavDataForAdmin }
-            activeKeySideNav={ activeKeySideNav }
-            activeKeySideNavSelect={ activeKeySideNavSelect }
-            setSignOutModalOpen={ setSignOutModalOpen }
-            logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
-
-            { mainPanelComponenet(activeKeySideNav) }
-
-        </HomeComponentForAdmin>);
-
-    } else if (session && session.group === "doctor") {
-        homeComponent =
-            (<HomeComponentForDoctor
+    if (session) {
+        homeComponent = (
+            <HomeComponentForAdmin
                 scope={ session.scope }
-                sideNavData={ sideNavDataForDoctor }
+                sideNavData={ sideNavDataForAdmin }
                 activeKeySideNav={ activeKeySideNav }
                 activeKeySideNavSelect={ activeKeySideNavSelect }
                 setSignOutModalOpen={ setSignOutModalOpen }
-                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
+                logoComponent={ (
+                    <LogoComponent 
+                        imageSize="small" 
+                        name={ name } 
+                        white={ true } 
+                    /> 
+                ) }
+            >
 
                 { mainPanelComponenet(activeKeySideNav) }
 
-            </HomeComponentForDoctor>);
-    } else if (session && session.group === "petOwner") {
-
-        homeComponent =
-            (<HomeComponentForPetOwner
-                scope={ session.scope }
-                sideNavData={ sideNavDataForPetOwner }
-                activeKeySideNav={ activeKeySideNav }
-                activeKeySideNavSelect={ activeKeySideNavSelect }
-                setSignOutModalOpen={ setSignOutModalOpen }
-                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
-
-                { mainPanelComponenet(activeKeySideNav) }
-
-            </HomeComponentForPetOwner>);
+            </HomeComponentForAdmin>)
+        ;
 
     } else {
         homeComponent = <Custom500 />;
