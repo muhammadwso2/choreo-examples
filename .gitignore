@@ -27,7 +27,6 @@ hs_err_pid*
 # Ignore Ballerina specific files
 **/target/
 **/Dependencies.toml
-**/Config.toml
 
 # Ignore webapp files
 **/node_modules/

@@ -71,7 +71,7 @@
                 "update_pet",
                 "view_user_settings",
                 "update_user_settings",
-                "view_personalization",
+                "create_personalization",
                 "update_personalization",
                 "internal_org_claim_meta_create", 
                 "internal_org_claim_meta_view", 
