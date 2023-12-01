@@ -115,7 +115,7 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
                     secondaryColor: values["secondary_color"]
                 };
 
-                postPersonalization(session.accessToken, session.orgId, newPersonalization)
+                postPersonalization(session.accessToken, newPersonalization)
                     .then(() => {
                         personalize(newPersonalization);
                     })
@@ -130,7 +130,7 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
         setLoadingDisplay(LOADING_DISPLAY_BLOCK);
         controllerDecodeRevertBrandingPreference(session)
             .then(() => {
-                deletePersonalization(session.accessToken, session.orgId)
+                deletePersonalization(session.accessToken)
                     .then(() => {
                         getPersonalization(session.orgId)
                             .then((response) => {
