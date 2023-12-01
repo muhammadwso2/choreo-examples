@@ -61,7 +61,7 @@ public isolated class UserInfoResolver {
 
     private isolated function getOrgFromPayload(jwt:Payload payload) returns string {
 
-        string? user_org = payload["user_organization"].toString();
+        string? user_org = payload["user_org"].toString();
         if user_org is "" {
             user_org = "Test_Key_Org";
         }

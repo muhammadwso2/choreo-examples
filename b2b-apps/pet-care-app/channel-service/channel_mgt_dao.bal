@@ -83,7 +83,8 @@ function dbGetDoctorByDoctorId(string doctorId) returns Doctor|()|error {
 
     do {
         sql:ParameterizedQuery query = `SELECT d.id, d.org, d.createdAt, d.name, d.gender, d.registrationNumber, d.specialty, 
-        d.emailAddress, d.dateOfBirth, d.address, a.date, a.startTime, a.endTime, a.availableBookingCount FROM Doctor d 
+        d.emailAddress, d.dateOfBirth, d.address, IFNULL(a.date, "") as date, IFNULL(a.startTime, "") as startTime, 
+        IFNULL(a.endTime, "") as endTime, IFNULL(a.availableBookingCount, 0) as availableBookingCount FROM Doctor d 
         LEFT JOIN Availability a ON d.id = a.doctorId WHERE id = ${doctorId}`;
         stream<DoctorAvailabilityRecord, sql:Error?> doctorStream = dbClient->query(query);
 
@@ -120,58 +121,37 @@ function dbDeleteDoctorById(string org, string doctorId) returns string|()|error
 
 function dbAddDoctor(Doctor doctor) returns Doctor|error {
 
-    log:printInfo("Adding doctor from DB");
     jdbc:Client|error dbClient = getConnection();
     if dbClient is error {
-        log:printInfo("DB client error");
         return handleError(dbClient);
     }
 
     transaction {
-        log:printInfo("Starting transaction");
         sql:ParameterizedQuery query = `INSERT INTO Doctor (id, org, createdAt, name, gender, registrationNumber, 
         specialty, emailAddress, dateOfBirth, address) VALUES (${doctor.id}, ${doctor.org}, ${doctor.createdAt}, 
         ${doctor.name}, ${doctor.gender}, ${doctor.registrationNumber}, ${doctor.specialty}, ${doctor.emailAddress}, 
         ${doctor.dateOfBirth}, ${doctor.address});`;
-
-        log:printInfo("executing query");
-
-        sql:ExecutionResult|sql:Error insertResult = check dbClient->execute(query);
-
-        if insertResult is sql:Error {
-            log:printError("Error while inserting the doctor", insertResult);
-        }
-
-        log:printInfo("Doctor added");
-        log:printInfo("Adding timeslots");
+        _ = check dbClient->execute(query);
 
         Availability[]? availabilitySlots = doctor.availability;
         sql:ExecutionResult[]|sql:Error batchResult = [];
 
-        log:printInfo("Defined timeslot variables");
-
-        if availabilitySlots != null {
-            log:printInfo("availabilitySlots != null");
+        if availabilitySlots != null && availabilitySlots.length() > 0 {
             sql:ParameterizedQuery[] batchResultinsertQueries = from Availability availability in availabilitySlots
                 from TimeSlot timeSlot in availability.timeSlots
                 select `INSERT INTO Availability (doctorId, date, startTime, endTime, availableBookingCount)
                     VALUES (${doctor.id}, ${availability.date}, ${timeSlot.startTime}, ${timeSlot.endTime},
                      ${timeSlot.availableBookingCount})`;
-            log:printInfo("insertQueries" + batchResultinsertQueries.toString());
             batchResult = dbClient->batchExecute(batchResultinsertQueries);
-            log:printInfo("got batchResult");
         }
 
         if batchResult is sql:Error {
-            log:printInfo("batchResult is sql:Error" + batchResult.toString());
             rollback;
             return handleError(batchResult);
         } else {
-            log:printInfo("batchResult is not error");
             check commit;
 
             Doctor|()|error addedDoctor = dbGetDoctorByDoctorId(doctor.id);
-            log:printInfo("added doctor: " + doctor.toString());
             if addedDoctor is () {
                 return error("Error while adding the doctor");
             }
@@ -179,7 +159,6 @@ function dbAddDoctor(Doctor doctor) returns Doctor|error {
             return addedDoctor;
         }
     } on fail error e {
-        log:printInfo("On fail error", e);
         return handleError(e);
     }
 }
