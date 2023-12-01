@@ -11,7 +11,8 @@ function dbGetDoctorsByOrg(string org) returns Doctor[]|error {
 
     do {
         sql:ParameterizedQuery query = `SELECT d.id, d.org, d.createdAt, d.name, d.gender, d.registrationNumber, d.specialty, 
-        d.emailAddress, d.dateOfBirth, d.address, a.date, a.startTime, a.endTime, a.availableBookingCount FROM Doctor d 
+        d.emailAddress, d.dateOfBirth, d.address, IFNULL(a.date, "") as date, IFNULL(a.startTime, "") as startTime, 
+        IFNULL(a.endTime, "") as endTime, IFNULL(a.availableBookingCount, 0) as availableBookingCount FROM Doctor d 
         LEFT JOIN Availability a ON d.id = a.doctorId WHERE org = ${org}`;
         stream<DoctorAvailabilityRecord, sql:Error?> doctorStream = dbClient->query(query);
 
@@ -33,7 +34,8 @@ function dbGetDoctorByIdAndOrg(string org, string doctorId) returns Doctor|()|er
 
     do {
         sql:ParameterizedQuery query = `SELECT d.id, d.org, d.createdAt, d.name, d.gender, d.registrationNumber, d.specialty, 
-        d.emailAddress, d.dateOfBirth, d.address, a.date, a.startTime, a.endTime, a.availableBookingCount FROM Doctor d 
+        d.emailAddress, d.dateOfBirth, d.address, IFNULL(a.date, "") as date, IFNULL(a.startTime, "") as startTime, 
+        IFNULL(a.endTime, "") as endTime, IFNULL(a.availableBookingCount, 0) as availableBookingCount FROM Doctor d 
         LEFT JOIN Availability a ON d.id = a.doctorId WHERE org = ${org} and id = ${doctorId}`;
         stream<DoctorAvailabilityRecord, sql:Error?> doctorStream = dbClient->query(query);
 
@@ -58,7 +60,8 @@ function dbGetDoctorByOrgAndEmail(string org, string email) returns Doctor|()|er
 
     do {
         sql:ParameterizedQuery query = `SELECT d.id, d.org, d.createdAt, d.name, d.gender, d.registrationNumber, d.specialty, 
-        d.emailAddress, d.dateOfBirth, d.address, a.date, a.startTime, a.endTime, a.availableBookingCount FROM Doctor d 
+        d.emailAddress, d.dateOfBirth, d.address, IFNULL(a.date, "") as date, IFNULL(a.startTime, "") as startTime, 
+        IFNULL(a.endTime, "") as endTime, IFNULL(a.availableBookingCount, 0) as availableBookingCount FROM Doctor d 
         LEFT JOIN Availability a ON d.id = a.doctorId WHERE org = ${org} and emailAddress = ${email}`;
         stream<DoctorAvailabilityRecord, sql:Error?> doctorStream = dbClient->query(query);
 
