@@ -18,7 +18,7 @@ boolean useDB = false;
 
 function init() returns error? {
 
-    if dbHost != "" {
+    if dbHost != "localhost" && dbHost != "" {
         useDB = true;
     }
 

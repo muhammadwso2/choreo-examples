@@ -92,7 +92,6 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
     };
 
     const onUpdate = async (values: Record<string, string>, form): Promise<void> => {
-        console.log(values);
 
         setLoadingDisplay(LOADING_DISPLAY_BLOCK);
         const activeTheme: string = brandingPreference["preference"]["theme"]["activeTheme"];

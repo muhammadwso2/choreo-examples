@@ -1,3 +1,4 @@
+import ballerina/log;
 import ballerina/http;
 
 UserInfoResolver userInfoResolver = new;

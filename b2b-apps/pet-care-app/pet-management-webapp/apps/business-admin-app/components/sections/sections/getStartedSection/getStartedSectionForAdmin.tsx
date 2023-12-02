@@ -81,7 +81,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
     async function getOrgDetails() {
         const accessToken = session.accessToken;
 
-        getOrgInfo(accessToken, session.orgId)
+        getOrgInfo(accessToken)
             .then((res) => {
                 if (res.data) {
                     setOrgInfo(res.data);
@@ -122,7 +122,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 telephoneNumber: telephoneNumber
             };
 
-            putOrgInfo(accessToken, session.orgId, payload);
+            putOrgInfo(accessToken, payload);
         }
         updateOrgDetails();
     };
