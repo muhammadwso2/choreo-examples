@@ -1,5 +1,5 @@
 type Personalization record {|
-    readonly string org;
+    readonly string orgId;
     string logoUrl;
     string logoAltText;
     string faviconUrl;

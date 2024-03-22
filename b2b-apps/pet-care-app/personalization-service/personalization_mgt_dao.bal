@@ -33,13 +33,13 @@ function dbUpdatePersonalization(Personalization personalization) returns Person
 
     do {
         sql:ParameterizedQuery query = `INSERT INTO Branding (org, logoUrl, logoAltText, faviconUrl, primaryColor, secondaryColor)
-            VALUES (${personalization.org}, ${personalization.logoUrl}, ${personalization.logoAltText}, ${personalization.faviconUrl}, 
+            VALUES (${personalization.orgId}, ${personalization.logoUrl}, ${personalization.logoAltText}, ${personalization.faviconUrl}, 
             ${personalization.primaryColor}, ${personalization.secondaryColor})
             ON DUPLICATE KEY UPDATE logoUrl = VALUES(logoUrl), logoAltText = VALUES(logoAltText), faviconUrl = VALUES(faviconUrl),
             primaryColor = VALUES(primaryColor), secondaryColor = VALUES(secondaryColor);`;
         _ = check dbClient->execute(query);
 
-        Personalization|http:NotFound|error updatedInfo = dbGetPersonalization(personalization.org);
+        Personalization|http:NotFound|error updatedInfo = dbGetPersonalization(personalization.orgId);
 
         if updatedInfo is http:NotFound|error {
             return error("Error while updating the org info");

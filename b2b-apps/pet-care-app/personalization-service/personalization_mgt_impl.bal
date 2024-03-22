@@ -11,7 +11,7 @@ configurable string dbPassword = "admin";
 configurable string dbDatabase = "CHANNEL_DB";
 configurable int dbPort = 3306;
 
-table<Personalization> key(org) personalizationRecords = table [];
+table<Personalization> key(orgId) personalizationRecords = table [];
 
 final mysql:Client|error dbClient;
 boolean useDB = false;
@@ -53,12 +53,12 @@ function getConnection() returns jdbc:Client|error {
     return dbClient;
 }
 
-function getPersonalization(string org) returns Personalization|error|http:NotFound {
+function getPersonalization(string orgId) returns Personalization|error|http:NotFound {
 
     if (useDB) {
-        return dbGetPersonalization(org);
+        return dbGetPersonalization(orgId);
     } else {
-        Personalization? personalization = personalizationRecords[org];
+        Personalization? personalization = personalizationRecords[orgId];
         if personalization is () {
             return http:NOT_FOUND;
         }
@@ -66,14 +66,14 @@ function getPersonalization(string org) returns Personalization|error|http:NotFo
     }
 }
 
-function updatePersonalization(string org, Personalization personalization) returns Personalization|error {
+function updatePersonalization(string orgId, Personalization personalization) returns Personalization|error {
 
     if (useDB) {
         return dbUpdatePersonalization(personalization);
     } else {
-        Personalization? oldPersonalizationRecord = personalizationRecords[org];
+        Personalization? oldPersonalizationRecord = personalizationRecords[orgId];
         if oldPersonalizationRecord !is () {
-            _ = personalizationRecords.remove(org);
+            _ = personalizationRecords.remove(orgId);
         }
         personalizationRecords.put({
             ...personalization
@@ -82,14 +82,14 @@ function updatePersonalization(string org, Personalization personalization) retu
     }
 }
 
-function deletePersonalization(string org) returns string|()|error {
+function deletePersonalization(string orgId) returns string|()|error {
 
     if (useDB) {
-        return dbDeletePersonalization(org);
+        return dbDeletePersonalization(orgId);
     } else {
-        Personalization? oldPersonalizationRecord = personalizationRecords[org];
+        Personalization? oldPersonalizationRecord = personalizationRecords[orgId];
     if oldPersonalizationRecord !is () {
-        _ = personalizationRecords.remove(org);
+        _ = personalizationRecords.remove(orgId);
     }
 
     return "Branding deleted successfully";
