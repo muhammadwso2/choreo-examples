@@ -64,7 +64,7 @@ export default function Home() {
                             logoAltText: "Pet Care App Logo",
                             logoUrl: "https://user-images.githubusercontent.com/" + 
                                 "35829027/241967420-9358bd5c-636e-48a1-a2d8-27b2aa310ebf.png",
-                            org: "",
+                            orgId: "",
                             primaryColor: "#4F40EE",
                             secondaryColor: "#E0E1E2"
                         };

@@ -115,7 +115,7 @@ export default function Org(props : OrgProps) {
                         faviconUrl: res["preference"]["theme"][activeTheme]["images"]["favicon"]["imgURL"],
                         logoAltText: res["preference"]["theme"][activeTheme]["images"]["logo"]["altText"],
                         logoUrl: res["preference"]["theme"][activeTheme]["images"]["logo"]["imgURL"],
-                        org: session.orgId,
+                        orgId: session.orgId,
                         primaryColor: res["preference"]["theme"][activeTheme]["colors"]["primary"]["main"],
                         secondaryColor: res["preference"]["theme"][activeTheme]["colors"]["secondary"]["main"]
                     };

@@ -109,7 +109,7 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
                     faviconUrl: values["favicon_url"],
                     logoAltText: values["logo_alt_text"],
                     logoUrl: values["logo_url"],
-                    org: session.orgId,
+                    orgId: session.orgId,
                     primaryColor: values["primary_color"],
                     secondaryColor: values["secondary_color"]
                 };

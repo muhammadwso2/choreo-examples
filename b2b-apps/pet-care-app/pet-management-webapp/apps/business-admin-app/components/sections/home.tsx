@@ -49,7 +49,10 @@ import sideNavDataForAdmin
 import HomeComponentForAdmin
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
 import Custom500 from "../../pages/500";
-
+import { BrandingPreference } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { Personalization } from "apps/business-admin-app/types/personalization";
+import controllerDecodeGetBrandingPreference from "libs/business-admin-app/data-access/data-access-controller/src/lib/controller/branding/controllerDecodeGetBrandingPreference";
+import { postPersonalization } from "apps/business-admin-app/APICalls/UpdatePersonalization/post-personalization";
 
 interface HomeProps {
     name: string,
@@ -68,25 +71,46 @@ export default function Home(props: HomeProps): JSX.Element {
 
     const [ activeKeySideNav, setActiveKeySideNav ] = useState("1");
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
-
-    const fetchData = useCallback(async () => {
-        fetchBrandingPreference();
+    
+    useEffect(() => {
+        updateBrandingPreference();
     }, [ session ]);
 
-    useEffect(() => {
-        fetchData();
-        fetchBrandingPreference();
-    }, [ fetchData ]);
+    const updateBrandingPreference = async () => {
+        
+        var orgId = session?.orgId;
+        
+        if (orgId) {
+            getPersonalization(orgId)
+                .then((response) => {
+                    personalize(response.data);
+                })
+                .catch(async (err) => {
+                    if (err.response.status === 404) {
 
-    const fetchBrandingPreference = async () => {
-        // getPersonalization(session.accessToken, session.orgId)
-        //     .then((response) => {
-        //         personalize(response.data);
-        //     });
+                        console.log("Personalization settings not found. Calling IS Branding API.");
+                        const res: BrandingPreference = (await controllerDecodeGetBrandingPreference(session) as BrandingPreference);
+                        const activeTheme: string = res["preference"]["theme"]["activeTheme"];                        
+                    
+                        const orgPersonalization: Personalization = {
+                            faviconUrl: res["preference"]["theme"][activeTheme]["images"]["favicon"]["imgURL"],
+                            logoAltText: res["preference"]["theme"][activeTheme]["images"]["logo"]["altText"],
+                            logoUrl: res["preference"]["theme"][activeTheme]["images"]["logo"]["imgURL"],
+                            orgId: orgId,
+                            primaryColor: res["preference"]["theme"][activeTheme]["colors"]["primary"]["main"],
+                            secondaryColor: res["preference"]["theme"][activeTheme]["colors"]["secondary"]["main"]
+                        };
+        
+                        personalize(orgPersonalization);
+                        postPersonalization(session.accessToken, orgPersonalization);
+                        
+                    } else {
+                        console.log(err);
+                    }
+                
+                });
+        }
     };
-
-    
-
 
     const mainPanelComponenet = (activeKey): JSX.Element => {
         switch (activeKey) {
@@ -172,6 +196,7 @@ export default function Home(props: HomeProps): JSX.Element {
                         imageSize="small" 
                         name={ name } 
                         white={ true } 
+                        tagLine=""
                     /> 
                 ) }
             >
