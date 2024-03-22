@@ -91,15 +91,15 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
                 direction="row"
                 justifyContent="space-between">
                 <Stack direction="column" alignItems="flex-start">
-                    <h2>{ "Manage Doctors" }</h2>
-                    <p>{ "Manage doctors in the organization" }</p>
+                    <h2>{ "Manage Students" }</h2>
+                    <p>{ "Manage students in the organization" }</p>
                 </Stack>
                 <Button
                     appearance="primary"
                     size="lg"
                     onClick={ onAddDoctorClick }
                 >
-                        Add Doctor
+                        Add Student
                 </Button>
             </Stack>
 

@@ -1,6 +1,14 @@
 {
     "items": [
         {
+            "title": "Home",
+            "eventKey": "1",
+            "icon": "AdminIcon",
+            "type": "item",
+            "hideBasedOnScope": true,
+            "scopes": [ ]
+        },
+        {
             "title": "Dashboard",
             "eventKey": "10",
             "icon": "DashboardIcon",
@@ -36,7 +44,7 @@
             ]
         },
         {
-            "title": "Manage Doctors",
+            "title": "Manage Students",
             "eventKey": "3",
             "icon": "ProfileIcon",
             "type": "item",
@@ -170,7 +178,7 @@
             "hideBasedOnScope": true,
             "items": [
                 {
-                    "title": "Channel a Doctor",
+                    "title": "Channel a Student",
                     "eventKey": "7-1",
                     "type": "item",
                     "icon": "ManageUserIcon",

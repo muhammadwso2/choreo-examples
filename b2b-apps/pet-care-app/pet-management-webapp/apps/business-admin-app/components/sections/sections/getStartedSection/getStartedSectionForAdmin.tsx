@@ -232,7 +232,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                     { "Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!" }
                 </div>
                 <div className={ styles.tagLine }>
-                    { "Taking Veterinary Care to the Next Level of Excellence" }
+                    { "Taking Higher Education to the Next Level of Excellence" }
                 </div>
 
             </div>
@@ -286,7 +286,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                                                 onChange={ (e) => setRegNo(e.target.value) } />
 
                                         </Grid><Grid item>
-                                            <p className={ styles.orgInfoFont }>Adress</p>
+                                            <p className={ styles.orgInfoFont }>Address</p>
                                             <input
                                                 className={ styles.orgInfoInputStyle }
                                                 id="address"
@@ -319,7 +319,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
-                        Doctor Specialty Summary
+                        Total Students Summary
                     </div>
                     <div className={ styles.chartForBookingSummary }>
                         <div id="chartContainer">
@@ -330,7 +330,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                         { doctorList? doctorList.length:0 }
                     </div>
                     <div className={ styles.totalBookingHeader } >
-                        Total Doctors
+                        Total Students
                     </div>
                 </div>
             </Stack>

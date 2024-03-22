@@ -18,7 +18,7 @@
 
 import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { SharedLogoComponent } from "@pet-management-webapp/shared/ui/ui-components";
-import logoImage from "../../../../../ui-assets/src/lib/images/pet_care_logo.png";
+import logoImage from "../../../../../ui-assets/src/lib/images/banner-logo.png";
 import { LogoComponentProps } from "../../models/logoComponent/logoComponent";
 
 /**
@@ -29,15 +29,16 @@ import { LogoComponentProps } from "../../models/logoComponent/logoComponent";
  */
 export function LogoComponent(prop: LogoComponentProps) {
 
-    const { name, imageSize, white } = prop;
+    const { className, name, imageSize, white = false, tagLine = getConfig().BusinessAdminAppConfig.ApplicationConfig.Branding.tag } = prop;
 
     return (
         <SharedLogoComponent
+            className={ className }
             image={ logoImage }
-            tagLine={ getConfig().BusinessAdminAppConfig.ApplicationConfig.Branding.tag }
+            tagLine={ tagLine }
             name={ name }
             imageSize={ imageSize }
-            white={ false }
+            white={ white }
         />
     );
 }
