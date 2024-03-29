@@ -16,11 +16,9 @@
  * under the License.
  */
 
-import { Button, List, ListItem, ListItemIcon, ListItemText, Menu, Theme, Typography, createStyles, makeStyles } from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText, Menu, Typography } from "@mui/material";
 import React from "react";
-import getSettingsView from "../pages/settings";
 import GetSettings from "../pages/settings";
-import SETTINGS_ICON from "../images/settings.png";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { BasicUserInfo, useAuthContext } from "@asgardeo/auth-react";
@@ -31,9 +29,7 @@ export default function MenuListComposition(props: {
     signout: (callback?: (response: boolean) => void) => Promise<boolean>;
 }) {
     const { user, signout } = props;
-    const anchorRef = React.useRef<HTMLButtonElement>(null);
     const [userMenuOpen, setUserMenuOpen] = React.useState(false);
-    const prevOpen = React.useRef(userMenuOpen);
     const [settingsOpen, setSettingsOpen] = React.useState(false);
     const { getAccessToken } = useAuthContext();
     const [enabled, setEnabled] = React.useState(false);
@@ -42,7 +38,6 @@ export default function MenuListComposition(props: {
     const handleToggle = () => {
         setUserMenuOpen((prevOpen) => !prevOpen);
     };
-
 
     const handleLogout = () => {
         signout();
@@ -68,7 +63,7 @@ export default function MenuListComposition(props: {
         <><div className="user-menu-div">
             <button className="menu-btn" onClick={handleToggle}>
                 <label className="usename-label">
-                    {user.name}
+                    Welcome, {user.displayName}
                 </label>
                 <i className="arrow-down"></i>
             </button>
@@ -80,7 +75,6 @@ export default function MenuListComposition(props: {
                 open={userMenuOpen}
                 onClose={handleClose}
                 className="menu-style"
-                getContentAnchorEl={null}
             >
                 <List className="list-style">
                     <ListItem

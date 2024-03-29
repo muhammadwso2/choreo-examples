@@ -25,11 +25,10 @@ import CAT_IMAGE from "../images/cat.png";
 import RABBIT_IMAGE from "../images/rabbit.png";
 import COVER_IMAGE from "../images/nav-image.png";
 import { DefaultLayout } from "../layouts/default";
-import { AuthenticationResponse } from "../components";
 import { useLocation } from "react-router-dom";
 import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
 import { USER_DENIED_LOGOUT } from "../constants/errors";
-import { Pet, PetInfo } from "../types/pet";
+import { Pet } from "../types/pet";
 import AddPet from "./Pets/addPets";
 import PetOverview from "./Pets/petOverview";
 import PetCard from "./Pets/PetCard";
@@ -88,9 +87,10 @@ export const HomePage: FunctionComponent = (): ReactElement => {
         (async (): Promise<void> => {
             const basicUserInfo = await getBasicUserInfo();
             setUser(basicUserInfo);
+            
             const idToken = await getIDToken();
             const decodedIDToken = await getDecodedIDToken();
-
+            
             const derivedState: DerivedState = {
                 authenticateResponse: basicUserInfo,
                 idToken: idToken.split("."),
@@ -100,7 +100,7 @@ export const HomePage: FunctionComponent = (): ReactElement => {
 
             setDerivedAuthenticationState(derivedState);
         })();
-    }, [state.isAuthenticated, getBasicUserInfo, getIDToken, getDecodedIDToken]);
+    }, [state.isAuthenticated]);
 
     useEffect(() => {
         if (stateParam && errorDescParam) {
@@ -109,7 +109,6 @@ export const HomePage: FunctionComponent = (): ReactElement => {
             }
         }
     }, [stateParam, errorDescParam]);
-
 
     async function getPetList() {
         setIsLoading(true);
@@ -131,7 +130,6 @@ export const HomePage: FunctionComponent = (): ReactElement => {
             getPetList();
         }
     }, [isAddPetOpen, isOverviewOpen, isUpdateViewOpen]);
-
 
     useEffect(() => {
         if(state.isAuthenticated){
