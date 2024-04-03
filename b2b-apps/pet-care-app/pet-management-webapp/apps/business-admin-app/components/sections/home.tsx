@@ -19,11 +19,10 @@
 import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
 import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
 import { SignOutComponent } from "@pet-management-webapp/shared/ui/ui-components";
-import { getPersonalization } from "apps/business-admin-app/APICalls/GetPersonalization/get-personalization";
 import DoctorBookingsSection 
     from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 import GetStartedSectionComponent from "./sections/getStartedSection/getStartedSectionComponent";
 import GetStartedSectionComponentForAdmin from "./sections/getStartedSection/getStartedSectionForAdmin";
@@ -49,10 +48,7 @@ import sideNavDataForAdmin
 import HomeComponentForAdmin
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
 import Custom500 from "../../pages/500";
-import { BrandingPreference } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
-import { Personalization } from "apps/business-admin-app/types/personalization";
-import controllerDecodeGetBrandingPreference from "libs/business-admin-app/data-access/data-access-controller/src/lib/controller/branding/controllerDecodeGetBrandingPreference";
-import { postPersonalization } from "apps/business-admin-app/APICalls/UpdatePersonalization/post-personalization";
+import getPersonalizationFromServer, { getDefaultPersonalization } from "./utils/PersonalizationUtil";
 
 interface HomeProps {
     name: string,
@@ -73,42 +69,20 @@ export default function Home(props: HomeProps): JSX.Element {
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
     
     useEffect(() => {
-        updateBrandingPreference();
+        setPersonalization();
     }, [ session ]);
 
-    const updateBrandingPreference = async () => {
-        
-        var orgId = session?.orgId;
-        
-        if (orgId) {
-            getPersonalization(orgId)
+    const setPersonalization = async () => {
+                
+        if (session.orgId) {
+            getPersonalizationFromServer(session)
                 .then((response) => {
-                    personalize(response.data);
+                    personalize(response);
                 })
                 .catch(async (err) => {
-                    if (err.response?.status === 404) {
-
-                        console.log("Personalization settings not found. Calling IS Branding API.");
-                        const res: BrandingPreference = (await controllerDecodeGetBrandingPreference(session) as BrandingPreference);
-                        const activeTheme: string = res["preference"]["theme"]["activeTheme"];                        
-                    
-                        const orgPersonalization: Personalization = {
-                            faviconUrl: res["preference"]["theme"][activeTheme]["images"]["favicon"]["imgURL"],
-                            logoAltText: res["preference"]["theme"][activeTheme]["images"]["logo"]["altText"],
-                            logoUrl: res["preference"]["theme"][activeTheme]["images"]["logo"]["imgURL"],
-                            orgId: orgId,
-                            primaryColor: res["preference"]["theme"][activeTheme]["colors"]["primary"]["main"],
-                            secondaryColor: res["preference"]["theme"][activeTheme]["colors"]["secondary"]["main"]
-                        };
-        
-                        personalize(orgPersonalization);
-                        postPersonalization(session.accessToken, orgPersonalization);
-                        
-                    } else {
-                        console.log(err);
-                    }
-                
-                });
+                    console.log(err);
+                    personalize(getDefaultPersonalization());
+                })
         }
     };
 

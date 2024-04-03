@@ -16,23 +16,16 @@
  * under the License.
  */
 
-import { 
-    BrandingPreference 
-} from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 import { orgSignin, redirect } from "@pet-management-webapp/shared/util/util-authorization-config-util";
 import { postDoctor } from "apps/business-admin-app/APICalls/CreateDoctor/post-doc";
 import { getDoctor } from "apps/business-admin-app/APICalls/getDoctors/get-doctor";
-import { getPersonalization } from "apps/business-admin-app/APICalls/GetPersonalization/get-personalization";
-import { postPersonalization } from "apps/business-admin-app/APICalls/UpdatePersonalization/post-personalization";
 import personalize from "apps/business-admin-app/components/sections/sections/settingsSection/personalizationSection/personalize";
 import { DoctorInfo } from "apps/business-admin-app/types/doctor";
-import { Personalization } from "apps/business-admin-app/types/personalization";
-import controllerDecodeGetBrandingPreference 
-    from "libs/business-admin-app/data-access/data-access-controller/src/lib/controller/branding/controllerDecodeGetBrandingPreference";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { useEffect } from "react";
 import Home from "../../components/sections/home";
+import getPersonalizationFromServer, { getDefaultPersonalization } from "apps/business-admin-app/components/sections/utils/PersonalizationUtil";
 
 export async function getServerSideProps(context) {
 
@@ -101,28 +94,16 @@ export default function Org(props : OrgProps) {
                 }
             });
         
-        getPersonalization(session.orgId)
-            .then((response) => {
-                personalize(response.data);
-            })
-            .catch(async (err) => {
-                if (err.response?.status === 404 && session.group === "admin") {
-                    const res: BrandingPreference = 
-                        (await controllerDecodeGetBrandingPreference(session) as BrandingPreference);
-                    const activeTheme: string = res["preference"]["theme"]["activeTheme"];
-
-                    const newPersonalization: Personalization = {
-                        faviconUrl: res["preference"]["theme"][activeTheme]["images"]["favicon"]["imgURL"],
-                        logoAltText: res["preference"]["theme"][activeTheme]["images"]["logo"]["altText"],
-                        logoUrl: res["preference"]["theme"][activeTheme]["images"]["logo"]["imgURL"],
-                        orgId: session.orgId,
-                        primaryColor: res["preference"]["theme"][activeTheme]["colors"]["primary"]["main"],
-                        secondaryColor: res["preference"]["theme"][activeTheme]["colors"]["secondary"]["main"]
-                    };
-    
-                    postPersonalization(session.accessToken, newPersonalization);
-                }
-            });
+            if (session.orgId) {
+                getPersonalizationFromServer(session)
+                    .then((response) => {
+                        personalize(response);
+                    })
+                    .catch(async (err) => {
+                        console.log(err);
+                        personalize(getDefaultPersonalization());
+                    })
+            }
     }, [ session ]);
 
     return (
