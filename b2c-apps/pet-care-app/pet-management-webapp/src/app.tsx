@@ -18,7 +18,7 @@
 
 import { AuthProvider, useAuthContext } from "@asgardeo/auth-react";
 import React, { FunctionComponent, ReactElement } from "react";
-import { render } from "react-dom";
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./app.css";
 import { ErrorBoundary } from "./error-boundary";
@@ -46,4 +46,6 @@ const App = () => (
     </AuthProvider>
 );
 
-render((<App />), document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App />);
