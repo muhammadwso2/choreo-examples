@@ -232,7 +232,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                     { "Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!" }
                 </div>
                 <div className={ styles.tagLine }>
-                    { "Taking Higher Education to the Next Level of Excellence" }
+                    { "Taking Veterinary Care to the Next Level of Excellence" }
                 </div>
 
             </div>
@@ -319,7 +319,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
-                        Total Students Summary
+                        Total Doctors Summary
                     </div>
                     <div className={ styles.chartForBookingSummary }>
                         <div id="chartContainer">
@@ -330,7 +330,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                         { doctorList? doctorList.length:0 }
                     </div>
                     <div className={ styles.totalBookingHeader } >
-                        Total Students
+                        Total Doctors
                     </div>
                 </div>
             </Stack>

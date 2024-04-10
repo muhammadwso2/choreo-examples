@@ -39,13 +39,10 @@ export default function GetStartedText() {
                     </Stack>
 
                     <p className={ styles.getStartedSectionComponentGetStartedTextP }>
-                    The comprehensive Enterprise Resource Planning (ERP) system designed specifically for higher education institutions!
-                    <br></br><br></br> 
-                    With a focus on addressing the unique challenges faced by universities and colleges, Ellucian Banner offers a suite of 
-                    integrated solutions to streamline everyday processes. From managing critical student information to delivering services 
-                    that keep students on track, Ellucian Banner plays a vital role in enhancing the student experience and supporting 
-                    institutional operations. With modules covering areas like human resources, finance, and financial aid, Ellucian Banner 
-                    is a key component in empowering institutions to excel and support their students' growth and development effectively.
+                    Welcome to Pet Care – the ultimate companion for every pet owner! 
+                    Our app is designed with a deep understanding of the unique bond between you and 
+                    your furry friends. Whether you have a playful pup, a curious cat, or any other beloved pet, 
+                    Pet Care is here to simplify and enhance every aspect of pet ownership.
                     </p>
 
                     <Stack direction="column" spacing={ 20 } justifyContent="center">

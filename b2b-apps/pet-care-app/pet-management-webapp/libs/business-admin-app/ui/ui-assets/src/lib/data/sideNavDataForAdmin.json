@@ -44,7 +44,7 @@
             ]
         },
         {
-            "title": "Manage Students",
+            "title": "Manage Doctors",
             "eventKey": "3",
             "icon": "ProfileIcon",
             "type": "item",
@@ -178,7 +178,7 @@
             "hideBasedOnScope": true,
             "items": [
                 {
-                    "title": "Channel a Student",
+                    "title": "Channel a Doctor",
                     "eventKey": "7-1",
                     "type": "item",
                     "icon": "ManageUserIcon",
