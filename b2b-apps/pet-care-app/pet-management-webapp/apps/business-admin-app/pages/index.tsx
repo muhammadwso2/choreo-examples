@@ -57,7 +57,7 @@ export default function Home() {
                     personalize(response.data);
                 })
                 .catch(async (err) => {
-                    if (err.response.status === 404) {
+                    if (err.response?.status === 404) {
                         const defaultPersonalization: Personalization = {
                             faviconUrl: "https://user-images.githubusercontent.com/1329596/" + 
                                 "242288450-b511d3dd-5e02-434f-9924-3399990fa011.png",

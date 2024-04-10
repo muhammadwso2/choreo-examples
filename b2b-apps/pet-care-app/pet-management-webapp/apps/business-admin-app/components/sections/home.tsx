@@ -86,7 +86,7 @@ export default function Home(props: HomeProps): JSX.Element {
                     personalize(response.data);
                 })
                 .catch(async (err) => {
-                    if (err.response.status === 404) {
+                    if (err.response?.status === 404) {
 
                         console.log("Personalization settings not found. Calling IS Branding API.");
                         const res: BrandingPreference = (await controllerDecodeGetBrandingPreference(session) as BrandingPreference);
