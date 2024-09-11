@@ -69,6 +69,8 @@ export default function Home(props: HomeProps): JSX.Element {
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
     
     useEffect(() => {
+        console.log(session);
+        
         setPersonalization();
     }, [ session ]);
 
