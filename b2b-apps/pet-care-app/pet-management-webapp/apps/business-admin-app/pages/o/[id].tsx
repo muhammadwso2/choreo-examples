@@ -76,7 +76,7 @@ export default function Org(props : OrgProps) {
     }, [ routerQuery ]);
 
     useEffect(() => {
-        getDoctor(session.accessToken, session.user.emails[0])
+        getDoctor(session.accessToken, session.user?.emails[0])
             .catch((err) => {
                 if (err.response?.status === 404 && session.group === "doctor") {
                     const payload: DoctorInfo = {
