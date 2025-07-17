@@ -35,7 +35,7 @@ export default function GetStartedText() {
 
                     <Stack direction="column" spacing={ 10 } justifyContent="center">
                         <p><strong>Welcome to</strong></p>
-                        <LogoComponent imageSize="medium" />
+                        <LogoComponent imageSize="medium" className="" />
                     </Stack>
 
                     <p className={ styles.getStartedSectionComponentGetStartedTextP }>

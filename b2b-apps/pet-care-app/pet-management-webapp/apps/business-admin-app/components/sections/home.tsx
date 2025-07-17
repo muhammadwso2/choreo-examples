@@ -19,11 +19,10 @@
 import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
 import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
 import { SignOutComponent } from "@pet-management-webapp/shared/ui/ui-components";
-import { getPersonalization } from "apps/business-admin-app/APICalls/GetPersonalization/get-personalization";
 import DoctorBookingsSection 
     from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 import GetStartedSectionComponent from "./sections/getStartedSection/getStartedSectionComponent";
 import GetStartedSectionComponentForAdmin from "./sections/getStartedSection/getStartedSectionForAdmin";
@@ -49,7 +48,7 @@ import sideNavDataForAdmin
 import HomeComponentForAdmin
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
 import Custom500 from "../../pages/500";
-
+import getPersonalizationFromServer, { getDefaultPersonalization } from "./utils/PersonalizationUtil";
 
 interface HomeProps {
     name: string,
@@ -68,25 +67,26 @@ export default function Home(props: HomeProps): JSX.Element {
 
     const [ activeKeySideNav, setActiveKeySideNav ] = useState("1");
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
-
-    const fetchData = useCallback(async () => {
-        fetchBrandingPreference();
+    
+    useEffect(() => {
+        console.log(session);
+        
+        setPersonalization();
     }, [ session ]);
 
-    useEffect(() => {
-        fetchData();
-        fetchBrandingPreference();
-    }, [ fetchData ]);
-
-    const fetchBrandingPreference = async () => {
-        // getPersonalization(session.accessToken, session.orgId)
-        //     .then((response) => {
-        //         personalize(response.data);
-        //     });
+    const setPersonalization = async () => {
+                
+        if (session.orgId) {
+            getPersonalizationFromServer(session)
+                .then((response) => {
+                    personalize(response);
+                })
+                .catch(async (err) => {
+                    console.log(err);
+                    personalize(getDefaultPersonalization());
+                })
+        }
     };
-
-    
-
 
     const mainPanelComponenet = (activeKey): JSX.Element => {
         switch (activeKey) {
@@ -172,6 +172,7 @@ export default function Home(props: HomeProps): JSX.Element {
                         imageSize="small" 
                         name={ name } 
                         white={ true } 
+                        tagLine=""
                     /> 
                 ) }
             >

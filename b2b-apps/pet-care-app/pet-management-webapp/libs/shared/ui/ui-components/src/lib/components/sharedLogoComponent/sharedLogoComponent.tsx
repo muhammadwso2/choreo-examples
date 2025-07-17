@@ -29,11 +29,11 @@ import { SharedLogoComponentProps, SharedLogoImageStyle, SharedLogoProps } from
  */
 export function SharedLogoComponent(prop: SharedLogoComponentProps) {
 
-    const { image, tagLine, name, imageSize, white } = prop;
+    const { className="pet-care-logo", image, tagLine, name, imageSize, white } = prop;
 
     return (
         <div className={ styles["logoDiv"] }>
-            <Logo image={ image } imageSize={ imageSize } white={ white } />
+            <Logo className= { className } image={ image } imageSize={ imageSize } white={ white } />
             <p className={ styles["nameTag"] }>{ tagLine } </p>
             {
                 name
@@ -58,7 +58,7 @@ export function SharedLogoComponent(prop: SharedLogoComponentProps) {
  */
 function Logo(prop: SharedLogoProps) {
 
-    const { image, imageSize, white } = prop;
+    const { className, image, imageSize, white } = prop;
 
     const getImageStyle = (size: string, white?: boolean) => {
 
@@ -89,7 +89,7 @@ function Logo(prop: SharedLogoProps) {
 
 
         if (white) {
-            imageStyle["filter"] = "grayscale(100%) drop-shadow(0px 0px 0px white)";
+            imageStyle["filter"] = "drop-shadow(white 0px 0px 5px)";
         }
 
         return imageStyle;
@@ -97,7 +97,7 @@ function Logo(prop: SharedLogoProps) {
 
     return (
         <Image
-            className="pet-care-logo"
+            className={ className }
             src={ image }
             alt="404 image"
             style={ getImageStyle(imageSize, white) } />

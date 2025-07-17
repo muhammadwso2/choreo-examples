@@ -19,6 +19,7 @@
 import { StaticImageData } from "next/image";
 
 export interface SharedLogoComponentProps {
+    className?: string,
     image : StaticImageData,
     tagLine? : string,
     name? : string,
@@ -27,6 +28,7 @@ export interface SharedLogoComponentProps {
 }
 
 export interface SharedLogoProps {
+    className?: string,
     image : StaticImageData,
     imageSize: "small" | "medium" | "large" | "x-large",
     white?: boolean

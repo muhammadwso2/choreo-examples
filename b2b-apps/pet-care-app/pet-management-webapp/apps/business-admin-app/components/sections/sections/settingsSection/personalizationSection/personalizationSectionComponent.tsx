@@ -28,9 +28,6 @@ import {
 } from "@pet-management-webapp/shared/ui/ui-components";
 import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
-import { deletePersonalization } from "apps/business-admin-app/APICalls/DeletePersonalization/delete-personalization";
-import { getPersonalization } from "apps/business-admin-app/APICalls/GetPersonalization/get-personalization";
-import { postPersonalization } from "apps/business-admin-app/APICalls/UpdatePersonalization/post-personalization";
 import { Personalization } from "apps/business-admin-app/types/personalization";
 import controllerDecodeGetBrandingPreference 
     from "libs/business-admin-app/data-access/data-access-controller/src/lib/controller/branding/controllerDecodeGetBrandingPreference";
@@ -41,7 +38,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { Button, Container, Divider, Toaster, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
-import personalize from "./personalize";
 import styles from "../../../../../styles/Settings.module.css";
 import { ChromePicker } from 'react-color';
 
@@ -109,16 +105,11 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
                     faviconUrl: values["favicon_url"],
                     logoAltText: values["logo_alt_text"],
                     logoUrl: values["logo_url"],
-                    org: session.orgId,
+                    orgId: session.orgId,
                     primaryColor: values["primary_color"],
                     secondaryColor: values["secondary_color"]
                 };
 
-                postPersonalization(session.accessToken, newPersonalization)
-                    .then(() => {
-                        personalize(newPersonalization);
-                    })
-                    .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));
                 fetchBrandingPreference();
             })
             .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));
@@ -129,13 +120,6 @@ export default function PersonalizationSectionComponent(props: PersonalizationSe
         setLoadingDisplay(LOADING_DISPLAY_BLOCK);
         controllerDecodeRevertBrandingPreference(session)
             .then(() => {
-                deletePersonalization(session.accessToken)
-                    .then(() => {
-                        getPersonalization(session.orgId)
-                            .then((response) => {
-                                personalize(response.data);
-                            });
-                    });
                 fetchBrandingPreference();
             })
             .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));

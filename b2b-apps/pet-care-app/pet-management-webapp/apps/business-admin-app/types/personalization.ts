@@ -17,7 +17,7 @@
  */
 
 export interface Personalization {
-    org: string;
+    orgId: string;
     logoUrl: string;
     logoAltText: string;
     faviconUrl: string;

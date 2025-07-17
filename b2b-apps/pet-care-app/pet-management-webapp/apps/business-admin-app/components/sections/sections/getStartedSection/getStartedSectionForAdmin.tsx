@@ -286,7 +286,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                                                 onChange={ (e) => setRegNo(e.target.value) } />
 
                                         </Grid><Grid item>
-                                            <p className={ styles.orgInfoFont }>Adress</p>
+                                            <p className={ styles.orgInfoFont }>Address</p>
                                             <input
                                                 className={ styles.orgInfoInputStyle }
                                                 id="address"
@@ -319,7 +319,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
-                        Doctor Specialty Summary
+                        Total Doctors Summary
                     </div>
                     <div className={ styles.chartForBookingSummary }>
                         <div id="chartContainer">

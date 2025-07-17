@@ -1,6 +1,14 @@
 {
     "items": [
         {
+            "title": "Home",
+            "eventKey": "1",
+            "icon": "AdminIcon",
+            "type": "item",
+            "hideBasedOnScope": true,
+            "scopes": [ ]
+        },
+        {
             "title": "Dashboard",
             "eventKey": "10",
             "icon": "DashboardIcon",
